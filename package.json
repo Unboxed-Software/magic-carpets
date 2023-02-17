@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx hardhat test"
+    "test": "npx hardhat test",
+    "deploy-goerli": "npx hardhat run scripts/deploy.ts --network goerli",
+    "upload-nft-metadata": "ts-node nft-metadata/index.ts"
   },
   "author": "",
   "license": "MIT",
@@ -32,6 +34,8 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "files-from-path": "^0.2.6",
+    "nft.storage": "^7.0.0"
   }
 }
