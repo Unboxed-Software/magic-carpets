@@ -15,7 +15,7 @@ contract MagicCarpets is ERC721, ERC721Enumerable, Ownable {
 
     constructor() ERC721("Magic Carpets", "MCP") {}
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to) public {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
@@ -26,12 +26,12 @@ contract MagicCarpets is ERC721, ERC721Enumerable, Ownable {
     ) public view override returns (string memory) {
         _requireMinted(tokenId);
 
-        uint256 uriId = tokenId % 16;
+        uint256 uriId = tokenId % 27;
 
         return
             string(
                 abi.encodePacked(
-                    "https://bafybeihazaij4jpuj4vre2ykhu4zyg2gtwcktdtknfdwvsdjkxvxx7xira.ipfs.nftstorage.link/",
+                    "ipfs://bafybeidpcyhylxi5zvk3cbemvixkxvzbnb6lf6vyqlowx3kzc2mbe33avq/",
                     uriId.toString(),
                     ".json"
                 )

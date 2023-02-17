@@ -23,7 +23,7 @@ describe("MagicCarpets", function () {
   it("Can mint", async function () {
     const { contract, otherAddresses } = await loadFixture(baseFixture)
     const minter = otherAddresses[0]
-    await contract.safeMint(minter.address)
+    await contract.connect(minter).safeMint(minter.address)
 
     expect(await contract.balanceOf(minter.address)).to.equal(1)
     expect(await contract.ownerOf(0)).to.equal(minter.address)
@@ -34,14 +34,18 @@ describe("MagicCarpets", function () {
     const { contract, otherAddresses } = await loadFixture(baseFixture)
     const minter = otherAddresses[0]
 
-    for (let i = 0; i < 17; i++) {
-      await contract.safeMint(minter.address)
+    const numberOfUniqueNFTs = (process.env.NUM_UNIQUE_NFT ?? 0) as number
+
+    for (let i = 0; i < numberOfUniqueNFTs + 1; i++) {
+      await contract.connect(minter).safeMint(minter.address)
     }
 
-    const secondToLastTokenUri = await contract.tokenURI(15)
-    const lastTokenUri = await contract.tokenURI(16)
+    const secondToLastTokenUri = await contract.tokenURI(numberOfUniqueNFTs - 1)
+    const lastTokenUri = await contract.tokenURI(numberOfUniqueNFTs)
 
-    expect(secondToLastTokenUri.slice(-7)).to.equal("15.json")
+    expect(secondToLastTokenUri.slice(-7)).to.equal(
+      `${numberOfUniqueNFTs - 1}.json`
+    )
     expect(lastTokenUri.slice(-7)).to.equal("/0.json")
   })
 })
